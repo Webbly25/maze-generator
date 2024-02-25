@@ -4,7 +4,7 @@ class Cell {
 	 * @type {Cell[]}
 	 */
 	static Cells = [];
-	static size = 40;
+	static size = 10;
 
 	rowIdx;
 	colIdx;

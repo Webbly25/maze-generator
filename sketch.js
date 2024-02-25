@@ -19,8 +19,6 @@ let currentCell;
 let cellStack = [];
 
 function setup() {
-	frameRate(5);
-
 	createCanvas(400, 400);
 	colCount = Math.floor(width / Cell.size);
 	rowCount = Math.floor(height / Cell.size);
