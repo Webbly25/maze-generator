@@ -37,6 +37,8 @@ function draw() {
 
 	const nextCell = currentCell.getNextNeighbour();
 	if (nextCell) {
+		Cell.setWalls(currentCell, nextCell);
+
 		currentCell = nextCell;
 		currentCell.visited = true;
 	}

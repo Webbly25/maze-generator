@@ -63,23 +63,6 @@ class Cell {
 	}
 
 	/**
-	 * Get a cell at a certain row and column
-	 * Returns null, if that cell doesn't exist
-	 * @param {number} row
-	 * @param {number} col
-	 * @returns {Cell | null} The cell at the row and column, or null
-	 */
-	static getCell(row, col) {
-		const colCount = Math.floor(width / Cell.size);
-		const rowCount = Math.floor(height / Cell.size);
-
-		if (row < 0 || row > rowCount - 1) return null;
-		if (col < 0 || col > colCount - 1) return null;
-
-		return Cell.Cells[col + row * colCount];
-	}
-
-	/**
 	 * Get a random next neighbour that hasn't been visited
 	 * Returns null if there are no unvisited neighbours
 	 * @returns {Cell | null} Next cell that hasn't been visited, or null if none available
@@ -102,5 +85,59 @@ class Cell {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Get a cell at a certain row and column
+	 * Returns null, if that cell doesn't exist
+	 * @param {number} row
+	 * @param {number} col
+	 * @returns {Cell | null} The cell at the row and column, or null
+	 */
+	static getCell(row, col) {
+		const colCount = Math.floor(width / Cell.size);
+		const rowCount = Math.floor(height / Cell.size);
+
+		if (row < 0 || row > rowCount - 1) return null;
+		if (col < 0 || col > colCount - 1) return null;
+
+		return Cell.Cells[col + row * colCount];
+	}
+
+	/**
+	 * Remove the walls between two cells
+	 * @param {Cell} current The current cell
+	 * @param {Cell} next The cell being moved to
+	 */
+	static setWalls(current, next) {
+		const dCol = current.colIdx - next.colIdx;
+		const dRow = current.rowIdx - next.rowIdx;
+
+		// moving right
+		if (dCol < 0) {
+			current.drawRightWall = false;
+			next.drawLeftWall = false;
+			return;
+		}
+
+		// moving left
+		if (dCol > 0) {
+			current.drawLeftWall = false;
+			next.drawRightWall = false;
+			return;
+		}
+
+		// moving down
+		if (dRow < 0) {
+			current.drawBottomWall = false;
+			next.drawTopWall = false;
+			return;
+		}
+
+		// moving down
+		if (dRow > 0) {
+			current.drawTopWall = false;
+			next.drawBottomWall = false;
+		}
 	}
 }
