@@ -35,6 +35,8 @@ function setup() {
 function draw() {
 	background(51);
 
+	currentCell.highlighted = false;
+
 	const nextCell = currentCell.getNextNeighbour();
 	if (nextCell) {
 		Cell.setWalls(currentCell, nextCell);
@@ -44,5 +46,6 @@ function draw() {
 	}
 
 	// draw all the cells
+	currentCell.highlighted = true;
 	Cell.Cells.forEach(c => c.draw());
 }

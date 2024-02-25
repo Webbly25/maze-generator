@@ -10,6 +10,7 @@ class Cell {
 	colIdx;
 
 	visited = false;
+	highlighted = false;
 
 	drawTopWall = true;
 	drawRightWall = true;
@@ -57,7 +58,12 @@ class Cell {
 
 		if (this.visited) {
 			noStroke();
-			fill(255, 0, 255, 100);
+
+			if (this.highlighted) {
+				fill(0, 255, 0, 100);
+			} else {
+				fill(255, 0, 255, 100);
+			}
 			rect(left, top, Cell.size, Cell.size);
 		}
 	}
@@ -111,7 +117,6 @@ class Cell {
 	 */
 	static setWalls(current, next) {
 		const dCol = current.colIdx - next.colIdx;
-		const dRow = current.rowIdx - next.rowIdx;
 
 		// moving right
 		if (dCol < 0) {
@@ -127,6 +132,7 @@ class Cell {
 			return;
 		}
 
+		const dRow = current.rowIdx - next.rowIdx;
 		// moving down
 		if (dRow < 0) {
 			current.drawBottomWall = false;
@@ -138,6 +144,7 @@ class Cell {
 		if (dRow > 0) {
 			current.drawTopWall = false;
 			next.drawBottomWall = false;
+			return;
 		}
 	}
 }
