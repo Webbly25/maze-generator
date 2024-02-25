@@ -70,8 +70,9 @@ class Cell {
 
 	/**
 	 * Get a random next neighbour that hasn't been visited
+	 * Returns the next cell, and the number of other options
 	 * Returns null if there are no unvisited neighbours
-	 * @returns {Cell | null} Next cell that hasn't been visited, or null if none available
+	 * @returns {{ cell: Cell, count: number} | null} Next cell that hasn't been visited and number of options, or null if none available
 	 */
 	getNextNeighbour() {
 		const neighbours = [
@@ -87,7 +88,7 @@ class Cell {
 
 		if (neighbours.length) {
 			const idx = Math.floor(random(0, neighbours.length));
-			return neighbours[idx];
+			return { cell: neighbours[idx], count: neighbours.length };
 		}
 
 		return null;

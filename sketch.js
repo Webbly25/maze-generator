@@ -13,6 +13,10 @@ let rowCount;
  * @type {Cell}
  */
 let currentCell;
+/**
+ * @type {Cell[]}
+ */
+let cellStack = [];
 
 function setup() {
 	frameRate(5);
@@ -39,13 +43,32 @@ function draw() {
 
 	const nextCell = currentCell.getNextNeighbour();
 	if (nextCell) {
-		Cell.setWalls(currentCell, nextCell);
+		// cell has unvisited neighbour
 
-		currentCell = nextCell;
+		if (nextCell.count > 1) {
+			// only push to stack if there were other options available
+			cellStack.push(currentCell);
+		}
+
+		Cell.setWalls(currentCell, nextCell.cell);
+
+		currentCell = nextCell.cell;
 		currentCell.visited = true;
+	} else {
+		// cell has no unvisted neighbours
+
+		currentCell = cellStack.pop();
 	}
 
 	// draw all the cells
-	currentCell.highlighted = true;
+	if (currentCell) {
+		currentCell.highlighted = true;
+	}
 	Cell.Cells.forEach(c => c.draw());
+
+	// finished generating
+	if (currentCell === undefined) {
+		noLoop();
+		return;
+	}
 }
